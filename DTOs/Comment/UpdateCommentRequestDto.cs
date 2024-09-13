@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Api.DTOs.Comment
+namespace StockMarketRepo.DTOs.Comment
 {
-    public class CreateCommentRequestDto
+    public class UpdateCommentRequestDto
     {
         public string Title { get; set; } = string.Empty;
         public string Content { get; set; } = string.Empty;
-        
+      
     }
 }

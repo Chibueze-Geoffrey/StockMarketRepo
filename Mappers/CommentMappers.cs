@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Api.DTOs.Comment;
+using StockMarketRepo.DTOs.Comment;
 
 namespace Api.Mappers
 {
@@ -21,15 +22,24 @@ namespace Api.Mappers
             };
         }
 
-        public static Comment CommentCreated(this CreateCommentRequestDto createCommentRequestDto)
+        public static Comment CommentCreated(this CreateCommentRequestDto createCommentRequestDto, int stockId)
         {
             return new Comment
             {
                 Title = createCommentRequestDto.Title,
                 Content = createCommentRequestDto.Content,
-                StockId = createCommentRequestDto.StockId,
+                StockId = stockId,
             };
         }
+        public static Comment CommentUpdated(this UpdateCommentRequestDto updateDto)
+        {
+            return new Comment
+            {
+                Title = updateDto.Title,
+                Content = updateDto.Content,
+            };
+        }
+
     }
 
 }
