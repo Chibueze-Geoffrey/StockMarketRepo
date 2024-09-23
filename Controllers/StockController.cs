@@ -1,6 +1,7 @@
 using Api.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using StockMarketRepo.Helpers;
 
 
 [Route("Api/stock")]
@@ -17,14 +18,14 @@ public class StockController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll([FromQuery] QueryObject query)
     {
-        var stock = await _stockRepo.GetAllAsync();
+        var stock = await _stockRepo.GetAllAsync(query);
         var stockDto = stock.Select(x => new StockDto());
         return Ok(stock);
     }
 
-    [HttpGet("{id: int}")]
+    [HttpGet("{id:int}")]
     public async Task<IActionResult> GetById([FromRoute] int id)
     {
         var stock = await _stockRepo.GetByIdAsync(id);
@@ -42,7 +43,7 @@ public class StockController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { Id = stockModel.Id },
         stockModel.stockDto());
     }
-    [HttpPut("{id: int}")]
+    [HttpPut("{id:int}")]
     public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateStockRequestDto updateDto)
     {
         var StockToUpdate = await _stockRepo.UpdateAsync(id, updateDto);
@@ -55,7 +56,7 @@ public class StockController : ControllerBase
 
         return Ok(StockToUpdate.stockDto());
     }
-    [HttpDelete("{id: int}")]
+    [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete([FromRoute] int id)
     {
         var stockToDelete = await _stockRepo.DeleteAsync(id);

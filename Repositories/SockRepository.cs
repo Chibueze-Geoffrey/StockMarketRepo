@@ -1,5 +1,6 @@
 using Api.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using StockMarketRepo.Helpers;
 
 namespace Api.Repositories
 {
@@ -32,9 +33,26 @@ namespace Api.Repositories
             return deleteStock;
         }
 
-        public async Task<List<Stock>> GetAllAsync()
+        public async Task<List<Stock>> GetAllAsync(QueryObject query)
         {
-            return await _context.Stocks.ToListAsync();
+            var stocks = _context.Stocks.Include(c=>c.Comments).AsQueryable();
+            if(!string.IsNullOrWhiteSpace(query.CompanyName))
+            {
+                stocks = stocks.Where(s=>s.CompanyName.Contains(query.CompanyName));
+            }
+              if(!string.IsNullOrWhiteSpace(query.Symbol))
+            {
+                stocks = stocks.Where(s=>s.CompanyName.Contains(query.Symbol));
+            }
+
+            if(!string.IsNullOrWhiteSpace(query.SortBy))
+            {
+                if(query.SortBy.Equals("Symbol", StringComparison.OrdinalIgnoreCase))
+                {
+                    stocks= query.IsDescending? stocks.OrderByDescending(s=>s.Symbol) : stocks.OrderBy(s=>s.Symbol);
+                }
+            }
+            return await stocks.ToListAsync();
         }
 
         public async Task<Stock?> GetByIdAsync(int id)
