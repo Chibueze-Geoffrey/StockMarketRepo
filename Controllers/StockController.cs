@@ -21,7 +21,7 @@ public class StockController : ControllerBase
     public async Task<IActionResult> GetAll([FromQuery] QueryObject query)
     {
         var stock = await _stockRepo.GetAllAsync(query);
-        var stockDto = stock.Select(x => new StockDto());
+        var stockDto = stock.Select(x =>x.stockDto());
         return Ok(stock);
     }
 

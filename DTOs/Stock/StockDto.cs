@@ -7,4 +7,5 @@ public class StockDto
     public decimal Div { get; set; }
     public string Industry { get; set; } = string.Empty;
     public long MarketCap { get; set; }
+
 }
