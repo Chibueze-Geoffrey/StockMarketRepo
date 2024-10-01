@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/appsettings.json
+/bin/Debug/net8.0
+/Migrations
+/.vs
+/Api.csproj
