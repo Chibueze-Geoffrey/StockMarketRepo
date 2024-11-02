@@ -1,4 +1,5 @@
 using Api.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StockMarketRepo.Helpers;
@@ -6,6 +7,7 @@ using StockMarketRepo.Helpers;
 
 [Route("Api/stock")]
 [ApiController]
+
 public class StockController : ControllerBase
 {
     private readonly ApplicationDb _context;

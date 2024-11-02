@@ -1,22 +1,27 @@
 using Api.DTOs.Comment;
 using Api.Interfaces;
 using Api.Mappers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StockMarketRepo.DTOs.Comment;
 
 namespace Api.Controllers
 {
-    [Route("[controller]")]
+   
+    [Route("api/comment")]
     [ApiController]
+    [Authorize]
     public class CommentController : ControllerBase
     {
+        private readonly ILogger<CommentController> _logger;
         private readonly ICommentRepository _commentRepo;
         private readonly IStockRepository _stockRepo;
 
-        public CommentController(ICommentRepository commentRepository, IStockRepository stockRepository)
+        public CommentController(ICommentRepository commentRepository, IStockRepository stockRepository, ILogger<CommentController> logger)
         {
             _commentRepo = commentRepository;
             _stockRepo = stockRepository;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -24,7 +29,9 @@ namespace Api.Controllers
         {
             var comment = await _commentRepo.GetAllAsync();
             var commentDto = comment.Select(x => x.commentDto());
+            _logger.LogInformation("Geting all Comments in a bit");
             return Ok(comment);
+          
         }
 
         [HttpGet("{id:int}")]
